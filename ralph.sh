@@ -6,9 +6,9 @@ EFFORT="${EFFORT:-medium}"
 mkdir -p state/logs
 for i in $(seq 1 "$MAX"); do
   echo "=== iteration $i $(date -u +%FT%TZ) effort=$EFFORT ===" | tee -a state/journal.md
-  claude --dangerously-skip-permissions --effort "$EFFORT" -p "$(cat PROMPT.md)" \
-    2>&1 | tee "state/logs/iter-$i.log"
-  if grep -q "<promise>COMPLETE</promise>" "state/logs/iter-$i.log"; then
+  claude --dangerously-skip-permissions --effort "$EFFORT" -p "$(cat PROMPT.md)" </dev/null \
+  2>&1 | tee "state/logs/iter-$i.log"  
+if grep -q "<promise>COMPLETE</promise>" "state/logs/iter-$i.log"; then
     echo "complete at iteration $i"; exit 0
   fi
   if [ -f state/BLOCKED.md ]; then
