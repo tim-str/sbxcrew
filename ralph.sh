@@ -2,10 +2,11 @@
 set -u
 cd "$(dirname "$0")"
 MAX="${MAX_ITER:-3}"
+EFFORT="${EFFORT:-medium}"
 mkdir -p state/logs
 for i in $(seq 1 "$MAX"); do
-  echo "=== iteration $i $(date -u +%FT%TZ) ===" | tee -a state/journal.md
-  claude --dangerously-skip-permissions -p "$(cat PROMPT.md)" \
+  echo "=== iteration $i $(date -u +%FT%TZ) effort=$EFFORT ===" | tee -a state/journal.md
+  claude --dangerously-skip-permissions --effort "$EFFORT" -p "$(cat PROMPT.md)" \
     2>&1 | tee "state/logs/iter-$i.log"
   if grep -q "<promise>COMPLETE</promise>" "state/logs/iter-$i.log"; then
     echo "complete at iteration $i"; exit 0
