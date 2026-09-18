@@ -4,9 +4,6 @@ target/
 !**/src/main/**/target/
 !**/src/test/**/target/
 
-.DS_Store
-.gitattributes
-
 ### STS ###
 .apt_generated
 .classpath
